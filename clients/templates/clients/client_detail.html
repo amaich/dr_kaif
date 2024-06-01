@@ -1,0 +1,18 @@
+{% extends "clients/base.html" %}
+{% block content %}
+<p>{{ client.fullname }}</p>
+<p>Дата рождения: {{ client.birthdate }}</p>
+<p>Электронная почта: {{ client.email }}</p>
+<p>Номер телефона: {{ client.phonenumber }}</p>
+<p>Заметка: {{ client.note }}</p>
+<p><a href="{% url 'clients:client_update' client.id %}">Изменить</a></p>
+<p><a href="{% url 'clients:client_delete' client.id %}">Удалить</a></p>
+    <h2>Посещения</h2>
+    {% for visit in visits %}
+        <p>{{ visit.visit_date }}</p>
+    {% empty %}
+        Нет посещений
+    {% endfor %}
+    {% include 'clients/visit_create.html' %}
+
+{% endblock %}
