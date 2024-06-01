@@ -1,0 +1,14 @@
+{% extends "clients/base.html" %}
+{% block content %}
+<form action="{% url 'clients:client_search' %}" method="get">
+    <input name="name" type="text" placeholder="Поиск" value="{{ find_name }}">
+    <button type="submit">Поиск</button>
+</form>
+{% if clients %}
+    {% for client in clients %}
+        <p><a href="{% url 'clients:client_detail' client.id %}">{{ client.fullname }}</a></p>
+    {% endfor %}
+{% else %}
+    <p>Ничего нет</p>
+{% endif %}
+{% endblock %}
