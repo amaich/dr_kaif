@@ -1,14 +1,7 @@
 <h2>Создать посещение</h2>
 <form action="{%  url 'clients:visit_create' client.id %}" method="post">
+    {% csrf_token %}
     {{ form.as_p }}
-    {% csrf_token %}
-    <input type="submit">
-</form>
-<p>---</p>
-<form action="{%  url 'clients:visit_create' client.id %}" method="post">
-    <input type="hidden" name="client" value="{{ client.id }}">
-    <input type="datetime-local" name="visit_date">
-    {% csrf_token %}
     <input type="submit">
 </form>
 

@@ -16,5 +16,23 @@ class VisitForm(ModelForm):
         model = Visit
         fields = '__all__'
         widgets = {
-            'visit_date': DateTimeInput(attrs={'type': 'date'}),
+            'visit_date': DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+
+class VisitCreateForm(ModelForm):
+    class Meta:
+        model = Visit
+        fields = ['visit_date']
+        widgets = {
+            'visit_date': DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+
+class VisitDetailForm(ModelForm):
+    class Meta:
+        model = Visit
+        fields = ['visit_date', 'diagnosis', 'therapy']
+        widgets = {
+            'visit_date': DateTimeInput(attrs={'type': 'datetime-local'}),
         }

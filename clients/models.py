@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
+
 # Create your models here.
 
 
@@ -21,3 +23,5 @@ class Client(models.Model):
 class Visit(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='visits')
     visit_date = models.DateTimeField()
+    diagnosis = models.TextField(blank=True, null=True)
+    therapy = models.TextField(blank=True, null=True)
