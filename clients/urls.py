@@ -10,5 +10,7 @@ urlpatterns = [
     path("<int:pk>/update", ClientUpdateView.as_view(), name='client_update'),
     path("<int:client_id>/delete", client_delete, name='client_delete'),
     path('<int:client_id>/visits/create', visit_create, name='visit_create'),
+    path('<int:client_id>/visits/<int:visit_id>', visit_detail, name='visit_detail'),
+    path('<int:client_id>/visits/<int:visit_id>/update', visit_update, name='visit_update'),
     path("search", ClientSearchView.as_view(), name='client_search'),
 ]

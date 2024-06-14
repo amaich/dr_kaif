@@ -7,8 +7,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.decorators.http import require_POST
 
-from .models import Client
-from .forms import ClientForm, VisitForm
+from .models import Client, Visit
+from .forms import *
 
 
 class ClientListView(ListView):
@@ -27,11 +27,45 @@ def client_detail(request, client_id):
     client = get_object_or_404(Client,
                                id=client_id)
     visits = client.visits.all().order_by('visit_date')
-    form = VisitForm()
+    form = VisitCreateForm()
     context = {'client': client, 'visits': visits, 'form': form}
     return render(request,
                   'clients/client_detail.html',
                   context=context)
+
+
+def visit_detail(request, client_id, visit_id):
+    visit = get_object_or_404(Visit,
+                              id=visit_id)
+    form = VisitDetailForm(data={'visit_date': visit.visit_date,
+                                 'diagnosis': visit.diagnosis,
+                                 'therapy': visit.therapy})
+    context = {'visit': visit,
+               'form': form}
+    return render(request,
+                  'clients/visit_detail.html',
+                  context)
+
+
+def visit_update(request, client_id, visit_id):
+    visit = get_object_or_404(Visit,
+                              id=visit_id)
+    form = VisitDetailForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        visit.visit_date = cd['visit_date']
+        visit.diagnosis = cd['diagnosis']
+        visit.therapy = cd['therapy']
+        visit.save()
+    return HttpResponseRedirect(reverse('clients:visit_detail', args=[visit.client.id, visit.id]))
+
+
+class VisitDetailView(View):
+    def get(self):
+        pass
+
+    def post(self):
+        pass
 
 
 class ClientUpdateView(UpdateView):
@@ -68,7 +102,7 @@ class ClientSearchView(ListView):
 def visit_create(request, client_id):
     client = get_object_or_404(Client, id=client_id)
     visit = None
-    form = VisitForm(data=request.POST)
+    form = VisitCreateForm(data=request.POST)
     if form.is_valid():
         visit = form.save(commit=False)
         visit.client = client
