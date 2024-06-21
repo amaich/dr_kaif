@@ -9,10 +9,10 @@
 <p><a href="{% url 'clients:client_delete' client.id %}">Удалить</a></p>
     <h2>Посещения</h2>
     {% for visit in visits %}
-        <p><a href="{% url 'clients:visit_detail' client.id visit.id %}">{{ visit.visit_date }}</a></p>
+        <p><a href="{% url 'clients:visit_detail' visit.id %}">{{ visit.visit_date }}</a></p>
     {% empty %}
         Нет посещений
     {% endfor %}
-    {% include 'clients/visit_create.html' %}
+    {% include 'clients/client_visit_create.html' %}
 
 {% endblock %}

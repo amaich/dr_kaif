@@ -1,0 +1,14 @@
+<h2>Создать посещение</h2>
+<form action="{%  url 'clients:client_visit_create' client.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+</form>
+
+{% for field, errors in form.errors.items %}
+    <p>ERRORS:</p>
+    <p>{{ field }}</p>
+    {% for error in errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+{% endfor %}

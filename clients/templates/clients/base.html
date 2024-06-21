@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Orto app{% endblock %}</title>
+    <title>{% block title %}Dr Kaif{% endblock %}</title>
 </head>
 <body>
     <h1><a href="{% url 'clients:client_list' %}">Главная</a></h1>
+    <h2><a href="{% url 'clients:visit_list' %}">Все записи</a></h2>
     {% block content%}
         There must be some content
     {% endblock %}

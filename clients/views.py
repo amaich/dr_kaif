@@ -17,6 +17,12 @@ class ClientListView(ListView):
     context_object_name = 'clients'
 
 
+class VisitListView(ListView):
+    model = Visit
+    template_name = 'clients/visit_list.html'
+    context_object_name = 'visits'
+
+
 class ClientCreateView(CreateView):
     form_class = ClientForm
     template_name = 'clients/client_create.html'
@@ -34,7 +40,7 @@ def client_detail(request, client_id):
                   context=context)
 
 
-def visit_detail(request, client_id, visit_id):
+def visit_detail(request, visit_id):
     visit = get_object_or_404(Visit,
                               id=visit_id)
     form = VisitDetailForm(data={'visit_date': visit.visit_date,
@@ -47,7 +53,7 @@ def visit_detail(request, client_id, visit_id):
                   context)
 
 
-def visit_update(request, client_id, visit_id):
+def visit_update(request, visit_id):
     visit = get_object_or_404(Visit,
                               id=visit_id)
     form = VisitDetailForm(request.POST)
@@ -57,7 +63,7 @@ def visit_update(request, client_id, visit_id):
         visit.diagnosis = cd['diagnosis']
         visit.therapy = cd['therapy']
         visit.save()
-    return HttpResponseRedirect(reverse('clients:visit_detail', args=[visit.client.id, visit.id]))
+    return HttpResponseRedirect(reverse('clients:visit_detail', args=[visit.id]))
 
 
 class VisitDetailView(View):
@@ -99,7 +105,7 @@ class ClientSearchView(ListView):
 
 
 @require_POST
-def visit_create(request, client_id):
+def client_visit_create(request, client_id):
     client = get_object_or_404(Client, id=client_id)
     visit = None
     form = VisitCreateForm(data=request.POST)
@@ -111,3 +117,7 @@ def visit_create(request, client_id):
     else:
         print(form.errors)
         return HttpResponse(f'{form.errors}\n{type(form.errors)}')
+
+
+def visit_create(request):
+    pass
